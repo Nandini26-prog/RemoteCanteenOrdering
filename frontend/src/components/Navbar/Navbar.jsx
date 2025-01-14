@@ -1,28 +1,42 @@
-import React, { useState } from 'react'
-import './Navbar.css'
-import { assets } from '../../assets/assets'
-const Navbar = () => {
-const [menu,setMenu] = useState("home");
+import { Avatar, Badge, IconButton } from '@mui/material';
+import React from 'react';
+import SearchIcon from '@mui/icons-material/Search';
+import { pink } from '@mui/material/colors';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import "./Navbar.css";
 
-  return (
-    <div className='navbar'>
-      <img src={assets.logo} alt="" className='logo'/>
-      <ul className="navbar-menu">
-        <li className={menu==="home"?"active":""}>HOME</li>
-        <li className={menu==="menu"?"active":""}>MENU</li>
-        <li className={menu==="mobile-app"?"active":""}>MOBILE-APP</li>
-        <li className={menu==="contact-us"?"active":""}>CONTACT-US</li>
-      </ul>
-      <div className="navbar-right">
-        <img src={assets.search_icon} alt="" />
-        <div className="nabvar-search-icon">
-            <img src={assets.basket_icon} alt="" />
-            <div className="dot"></div>
+export const Navbar = () => {
+    return (
+        <div className='px-5 z-50 py-[.8rem] bg-[#e91e63] lg:px-20 flex justify-between'>
+            <div className='lg:mr-10 cursor-pointer flex items-center space-x-4'>
+                <li className='logo font-semibold text-gray-300 text-2xl'>
+                    SnapPick
+                </li>
+            </div>
+
+            <div className='flex items-center space-x-2 lg:space-x-10'>
+                <div>
+                    <IconButton>
+                        <SearchIcon sx={{ fontSize: "1.5rem" }} />
+                    </IconButton>
+                </div>
+
+                <div>
+                    <Avatar sx={{ bgcolor: "white", color: pink.A400 }}>C</Avatar>
+                </div>
+
+                <div>
+                    <Avatar sx={{ bgcolor: "white", color: pink.A400 }}>C</Avatar>
+                </div>
+
+                <div>
+                    <IconButton>
+                        <Badge color="primary" badgeContent={3}>
+                            <ShoppingCartIcon sx={{ fontSize: "1.5rem" }} />
+                        </Badge>
+                    </IconButton>
+                </div>
+            </div>
         </div>
-        <button>SIGN IN</button>
-      </div>
-    </div>
-  )
+    );
 }
-
-export default Navbar
