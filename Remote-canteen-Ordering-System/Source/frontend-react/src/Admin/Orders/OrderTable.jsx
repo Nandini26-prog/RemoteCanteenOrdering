@@ -106,7 +106,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                       ))}
                     </AvatarGroup>
                   </TableCell>
-                  <TableCell>{item.customer.email}</TableCell>
+                  <TableCell>{item.customer.name}</TableCell>
                   <TableCell>₹{item.totalAmount}</TableCell>
                   <TableCell>
                     {item.items.map((orderItem) => (
