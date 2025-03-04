@@ -261,6 +261,10 @@ import {
   Typography,
   List,
   ListItem,
+<<<<<<< HEAD
+=======
+  TextField,
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
 } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
@@ -269,6 +273,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchRestaurantsOrder,
   updateOrderStatus,
+  updatePickupTime,
 } from "../../State/Admin/Order/restaurants.order.action";
 
 const orderStatus = [
@@ -285,6 +290,10 @@ const OrdersTable = ({ isDashboard, name }) => {
   const { restaurantsOrder } = useSelector((store) => store);
   const [anchorElArray, setAnchorElArray] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+<<<<<<< HEAD
+=======
+  const [pickupTime, setPickupTime] = useState({});
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
   const { id } = useParams();
 
   const handleUpdateStatusMenuClick = (event, index) => {
@@ -307,6 +316,17 @@ const OrdersTable = ({ isDashboard, name }) => {
   const handlePreviewItem = (item) => {
     setSelectedItem(item);
   };
+<<<<<<< HEAD
+=======
+
+  const handlePickupTimeChange = (orderId, value) => {
+    setPickupTime((prev) => ({ ...prev, [orderId]: value }));
+  };
+
+  const handleConfirmPickupTime = (orderId) => {
+    dispatch(updatePickupTime({ orderId, pickupTime: pickupTime[orderId], jwt }));
+  };
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
 
   return (
     <Box display="flex" gap={2}>
@@ -320,6 +340,10 @@ const OrdersTable = ({ isDashboard, name }) => {
                 <TableCell>Customer</TableCell>
                 <TableCell>Total Price</TableCell>
                 <TableCell>Order Date & Time</TableCell>
+<<<<<<< HEAD
+=======
+                <TableCell>Pickup Time</TableCell>
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
                 <TableCell>Food Item</TableCell>
                 <TableCell>Ingredients</TableCell>
                 <TableCell>Quantity</TableCell>
@@ -336,11 +360,26 @@ const OrdersTable = ({ isDashboard, name }) => {
                         <TableCell rowSpan={order.items.length}>{order.id}</TableCell>
                         <TableCell rowSpan={order.items.length}>{order.customer.fullName}</TableCell>
                         <TableCell rowSpan={order.items.length}>₹{order.totalAmount}</TableCell>
+<<<<<<< HEAD
                         <TableCell rowSpan={order.items.length}>{new Date(order.date).toLocaleString()}</TableCell>
                       </>
                     )}
 
                     {/* Food Item Name */}
+=======
+                        <TableCell rowSpan={order.items.length}>{new Date(order.timestamp).toLocaleString()}</TableCell>
+                        <TableCell rowSpan={order.items.length}>
+                          <TextField
+                            type="datetime-local"
+                            value={pickupTime[order.id] || order.pickupTime || ""}
+                            onChange={(e) => handlePickupTimeChange(order.id, e.target.value)}
+                          />
+                          <Button onClick={() => handleConfirmPickupTime(order.id)}>Confirm</Button>
+                        </TableCell>
+                      </>
+                    )}
+
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
                     <TableCell>
                       <AvatarGroup max={4}>
                         <Avatar
@@ -352,7 +391,10 @@ const OrdersTable = ({ isDashboard, name }) => {
                       <Typography>{orderItem.food.name}</Typography>
                     </TableCell>
 
+<<<<<<< HEAD
                     {/* Ingredients List */}
+=======
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
                     <TableCell>
                       <List>
                         {orderItem.ingredients?.map((ingredient, index) => (
@@ -361,10 +403,15 @@ const OrdersTable = ({ isDashboard, name }) => {
                       </List>
                     </TableCell>
 
+<<<<<<< HEAD
                     {/* Quantity */}
                     <TableCell>{orderItem.quantity}</TableCell>
 
                     {/* Status & Update Button */}
+=======
+                    <TableCell>{orderItem.quantity}</TableCell>
+
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
                     {!isDashboard && itemIndex === 0 && (
                       <>
                         <TableCell rowSpan={order.items.length}>
@@ -405,6 +452,7 @@ const OrdersTable = ({ isDashboard, name }) => {
           </Table>
         </TableContainer>
       </Card>
+<<<<<<< HEAD
       
       {/* Preview Section */}
       {selectedItem && (
@@ -422,6 +470,8 @@ const OrdersTable = ({ isDashboard, name }) => {
         </Card>
       )}
 
+=======
+>>>>>>> 00469d440dcf39f1ba3a3521bac6829f56866eef
       <Backdrop open={restaurantsOrder.loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
