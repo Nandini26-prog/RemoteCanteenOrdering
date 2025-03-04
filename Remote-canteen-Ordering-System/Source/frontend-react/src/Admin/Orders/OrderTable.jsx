@@ -94,10 +94,13 @@ const OrdersTable = ({ isDashboard, name }) => {
                         <TableCell rowSpan={order.items.length}>{order.id}</TableCell>
                         <TableCell rowSpan={order.items.length}>{order.customer.fullName}</TableCell>
                         <TableCell rowSpan={order.items.length}>₹{order.totalAmount}</TableCell>
-                        <TableCell rowSpan={order.items.length}>{new Date(order.createdAt).toLocaleString()}</TableCell>
+                        <TableCell rowSpan={order.items.length}>
+                          {new Date(order.createdAt).toLocaleString()}
+                        </TableCell>
                       </>
                     )}
 
+                    {/* Food Item Name */}
                     <TableCell>
                       <AvatarGroup max={4}>
                         <Avatar
@@ -109,6 +112,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                       <Typography>{orderItem.food.name}</Typography>
                     </TableCell>
 
+                    {/* Ingredients List */}
                     <TableCell>
                       <List>
                         {orderItem.ingredients?.map((ingredient, index) => (
@@ -117,8 +121,10 @@ const OrdersTable = ({ isDashboard, name }) => {
                       </List>
                     </TableCell>
 
+                    {/* Quantity */}
                     <TableCell>{orderItem.quantity}</TableCell>
 
+                    {/* Status & Update Button */}
                     {!isDashboard && itemIndex === 0 && (
                       <>
                         <TableCell rowSpan={order.items.length}>
@@ -159,6 +165,23 @@ const OrdersTable = ({ isDashboard, name }) => {
           </Table>
         </TableContainer>
       </Card>
+      
+      {/* Preview Section */}
+      {selectedItem && (
+        <Card sx={{ flex: 1, p: 2 }}>
+          <Typography variant="h6">Preview</Typography>
+          <Avatar src={selectedItem.images[0]} sx={{ width: 100, height: 100, my: 2 }} />
+          <Typography>Name: {selectedItem.name}</Typography>
+          <Typography>Price: ₹{selectedItem.price}</Typography>
+          <Typography>Ingredients:</Typography>
+          <List>
+            {selectedItem.ingredients?.map((ingredient, index) => (
+              <ListItem key={index}>{ingredient}</ListItem>
+            )) || <Typography>N/A</Typography>}
+          </List>
+        </Card>
+      )}
+
       <Backdrop open={restaurantsOrder.loading}>
         <CircularProgress color="inherit" />
       </Backdrop>
