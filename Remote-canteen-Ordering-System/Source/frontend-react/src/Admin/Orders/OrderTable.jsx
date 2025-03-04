@@ -19,6 +19,7 @@ import {
   Typography,
   List,
   ListItem,
+  TextField,
 } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
@@ -27,6 +28,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchRestaurantsOrder,
   updateOrderStatus,
+  updatePickupTime,
 } from "../../State/Admin/Order/restaurants.order.action";
 
 const orderStatus = [
@@ -43,6 +45,7 @@ const OrdersTable = ({ isDashboard, name }) => {
   const { restaurantsOrder } = useSelector((store) => store);
   const [anchorElArray, setAnchorElArray] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null);
+  const [pickupTimes, setPickupTimes] = useState({});
   const { id } = useParams();
 
   const handleUpdateStatusMenuClick = (event, index) => {
@@ -66,6 +69,27 @@ const OrdersTable = ({ isDashboard, name }) => {
     setSelectedItem(item);
   };
 
+  const handlePickupTimeChange = (orderId, event) => {
+    setPickupTimes({
+      ...pickupTimes,
+      [orderId]: event.target.value,
+    });
+  };
+
+  const handleConfirmPickupTime = (orderId, index) => {
+    const updatedPickupTime = pickupTimes[orderId] || getDefaultPickupTime(orderId);
+    dispatch(updatePickupTime({ orderId, pickupTime: updatedPickupTime, jwt }));
+    handleUpdateStatusMenuClose(index);
+  };
+
+  // Function to get default pickup time (10 minutes added to order time)
+  const getDefaultPickupTime = (orderId) => {
+    const order = restaurantsOrder.orders.find((order) => order.id === orderId);
+    const orderTime = new Date(order.createdAt);
+    orderTime.setMinutes(orderTime.getMinutes() + 10);
+    return orderTime.toLocaleString();
+  };
+
   return (
     <Box display="flex" gap={2}>
       <Card className="mt-1" sx={{ flex: 2 }}>
@@ -81,6 +105,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                 <TableCell>Food Item</TableCell>
                 <TableCell>Ingredients</TableCell>
                 <TableCell>Quantity</TableCell>
+                <TableCell>Pickup Time</TableCell>
                 {!isDashboard && <TableCell>Status</TableCell>}
                 {!isDashboard && <TableCell>Update</TableCell>}
               </TableRow>
@@ -124,6 +149,23 @@ const OrdersTable = ({ isDashboard, name }) => {
                     {/* Quantity */}
                     <TableCell>{orderItem.quantity}</TableCell>
 
+                    {/* Pickup Time */}
+                    <TableCell>
+                      {!isDashboard ? (
+                        <TextField
+                          label="Pickup Time"
+                          type="datetime-local"
+                          value={pickupTimes[order.id] || getDefaultPickupTime(order.id)}
+                          onChange={(event) => handlePickupTimeChange(order.id, event)}
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                        />
+                      ) : (
+                        <Typography>{getDefaultPickupTime(order.id)}</Typography>
+                      )}
+                    </TableCell>
+
                     {/* Status & Update Button */}
                     {!isDashboard && itemIndex === 0 && (
                       <>
@@ -131,13 +173,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                           <Chip
                             label={order.orderStatus}
                             size="small"
-                            color={
-                              order.orderStatus === "PENDING"
-                                ? "info"
-                                : order.orderStatus === "DELIVERED"
-                                ? "success"
-                                : "secondary"
-                            }
+                            color={order.orderStatus === "PENDING" ? "info" : order.orderStatus === "DELIVERED" ? "success" : "secondary"}
                           />
                         </TableCell>
                         <TableCell rowSpan={order.items.length}>
@@ -155,6 +191,9 @@ const OrdersTable = ({ isDashboard, name }) => {
                               </MenuItem>
                             ))}
                           </Menu>
+                          <Button onClick={() => handleConfirmPickupTime(order.id, orderIndex)}>
+                            Confirm Pickup Time
+                          </Button>
                         </TableCell>
                       </>
                     )}
@@ -165,7 +204,7 @@ const OrdersTable = ({ isDashboard, name }) => {
           </Table>
         </TableContainer>
       </Card>
-      
+
       {/* Preview Section */}
       {selectedItem && (
         <Card sx={{ flex: 1, p: 2 }}>
