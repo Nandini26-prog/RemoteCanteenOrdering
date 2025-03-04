@@ -1,5 +1,6 @@
 package com.snappickk.controller;
 
+import com.snappickk.model.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +22,7 @@ public class PaymentController {
 	private PaymentService paymentService;
 
 //	@PostMapping("/{orderId}/payment")
-//	public ResponseEntity<PaymentResponse> generatePaymentLink(@PathVariable Long orderId)
+//	public ResponseEntity<PaymentResponse> generatePaymentLink(@PathVariable Order orderId)
 //			throws StripeException{
 //
 //		PaymentResponse res = paymentService.generatePaymentLink(orderId);

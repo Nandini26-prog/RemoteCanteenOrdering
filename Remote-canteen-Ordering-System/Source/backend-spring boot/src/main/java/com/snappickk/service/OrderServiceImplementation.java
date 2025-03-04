@@ -119,6 +119,63 @@ public class OrderServiceImplementation implements OrderService {
 
 	}
 
+//	@Override
+//	public PaymentResponse createOrder(CreateOrderRequest order, Users users) throws UserException, RestaurantException, CartException, StripeException {
+//		// Validate and save delivery address
+//		Address shippAddress = order.getDeliveryAddress();
+//		Address savedAddress = addressRepository.save(shippAddress);
+//
+//		// Add address to user if not already present
+//		if (!users.getAddresses().contains(savedAddress)) {
+//			users.getAddresses().add(savedAddress);
+//			userRepository.save(users);
+//		}
+//
+//		// Validate restaurant
+//		Restaurant restaurant = restaurantRepository.findById(order.getRestaurantId())
+//				.orElseThrow(() -> new RestaurantException("Restaurant not found with id " + order.getRestaurantId()));
+//
+//		// Create new order
+//		Order createdOrder = new Order();
+//		createdOrder.setCustomer(users);
+//		createdOrder.setDeliveryAddress(savedAddress);
+//		createdOrder.setCreatedAt(new Date());
+//		createdOrder.setOrderStatus("PENDING");
+//		createdOrder.setRestaurant(restaurant);
+//
+//		// Set payment-related details
+//		createdOrder.setPaymentMethod(order.getPaymentMethod());
+//		createdOrder.setPaymentStatus(order.getPaymentStatus());
+//		createdOrder.setPaymentId(order.getPaymentId());
+//
+//		// Create order items from provided cart items
+//		List<OrderItem> orderItems = order.getCartItems().stream()
+//				.map(cartItem -> {
+//					OrderItem orderItem = new OrderItem();
+//					orderItem.setFood(cartItem.getFood());
+//					orderItem.setQuantity(cartItem.getQuantity());
+//					orderItem.setTotalPrice(cartItem.getFood().getPrice() * cartItem.getQuantity());
+//					orderItem.setOrder(createdOrder);
+//					return orderItemRepository.save(orderItem);
+//				})
+//				.collect(Collectors.toList());
+//
+//		// Calculate and set total amount
+//		Long totalPrice = orderItems.stream()
+//				.mapToLong(OrderItem::getTotalPrice)
+//				.sum();
+//		createdOrder.setTotalAmount(totalPrice);
+//		createdOrder.setItems(orderItems);
+//
+//		// Save order and update restaurant
+//		Order savedOrder = orderRepository.save(createdOrder);
+//		restaurant.getOrders().add(savedOrder);
+//		restaurantRepository.save(restaurant);
+//
+//		// Generate payment link
+//		return paymentSerive.generatePaymentLink(savedOrder);
+//	}
+
 	@Override
 	public void cancelOrder(Long orderId) throws OrderException {
            Order order =findOrderById(orderId);

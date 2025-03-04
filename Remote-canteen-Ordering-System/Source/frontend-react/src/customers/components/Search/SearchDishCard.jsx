@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 const SearchDishCard = ({item}) => {
     const dispatch = useDispatch();
   const handleAddItemToCart = () => {
+    if (!item.id) return;
     const data = {
       token: localStorage.getItem("jwt"),
       cartItem: {
@@ -27,8 +28,9 @@ const SearchDishCard = ({item}) => {
             <EastIcon />
           </IconButton>
         }
-        title={<p className="text-base"> {item.restaurant?.name} </p>}
-        
+        // title={<p className="text-base"> {item.restaurant?.name} </p>}
+        title={<p className="text-base">{item.restaurant?.name || "Unknown Restaurant"}</p>}
+
       />
       <CardContent>
         <div>
@@ -42,11 +44,16 @@ const SearchDishCard = ({item}) => {
             </p>
           </div>
           <div className="flex flex-col justify-center items-center space-y-2">
-            <img
+            {/* <img
               className="w-[5rem] h-[5rem]"
               src={item.images[0]}
               alt=""
-            />
+            /> */}
+
+<img className="w-[5rem] h-[5rem]" 
+     src={item.images?.[0] || "/default-image.jpg"} 
+     alt={item.name || "Food Image"} />
+
             <Button onClick={handleAddItemToCart} size="small">Add</Button>
           </div>
         </div>

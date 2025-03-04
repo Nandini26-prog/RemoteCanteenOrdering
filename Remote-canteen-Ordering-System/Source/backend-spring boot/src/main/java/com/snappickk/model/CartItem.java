@@ -32,9 +32,12 @@ public class CartItem {
     private int quantity;
     
     private List<String> ingredients;
-    
+
     private Long totalPrice;
-    
+
+//    private double totalPrice;
+//
+//    private String ingredients;
    
 }
 

@@ -42,10 +42,10 @@ export const topMeels=[
         title:"Rolls"
     }
     ,
-    {
-        image:"https://images.pexels.com/photos/2313686/pexels-photo-2313686.jpeg?auto=compress&cs=tinysrgb&w=600",
-        title:"Chiken"
-    },
+    // {
+    //     image:"https://images.pexels.com/photos/2313686/pexels-photo-2313686.jpeg?auto=compress&cs=tinysrgb&w=600",
+    //     title:"Chiken"
+    // },
     {
         image:"https://images.pexels.com/photos/2764905/pexels-photo-2764905.jpeg?auto=compress&cs=tinysrgb&w=600",
         title:"Noodles"

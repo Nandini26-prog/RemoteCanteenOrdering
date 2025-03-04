@@ -127,18 +127,60 @@ public class FoodServiceImplementation implements FoodService {
 			    })
 			    .collect(Collectors.toList());
 	}
+//
+//	@Override
+//	public List<Food> searchFood(String keyword) {
+//		if (keyword == null || keyword.trim().isEmpty()) {
+//			return new ArrayList<>();
+//		}
+//
+//		String searchTerm = keyword.trim().toLowerCase();
+//		return foodRepository.searchByNameOrCategory(searchTerm);
+//	}
+
+//		return items;
+//	}
+//@Override
+//public List<Food> searchFood(String keyword) {
+//	// Validate keyword
+//	if (keyword == null || keyword.trim().isEmpty()) {
+//		return new ArrayList<>();
+//	}
+//
+//	// Trim and convert to lowercase for case-insensitive search
+//	String searchTerm = keyword.trim().toLowerCase();
+//
+//	// Log the search term for debugging
+//	System.out.println("Search Keyword: " + searchTerm);
+//
+//	// Perform search using repository method
+//	return foodRepository.findByNameContainingIgnoreCaseOrFoodCategoryNameContainingIgnoreCase(searchTerm, searchTerm);
+//}
+
+
 
 	@Override
 	public List<Food> searchFood(String keyword) {
-		List<Food> items=new ArrayList<>();
-		
-		if(keyword!="") {
-			System.out.println("keyword -- "+keyword);
-			items=foodRepository.searchByNameOrCategory(keyword);
+		// Validate and prepare keyword
+		if (keyword == null || keyword.trim().isEmpty()) {
+			return new ArrayList<>();
 		}
-		
-		return items;
+
+		// Trim and convert to lowercase
+		String searchTerm = keyword.trim().toLowerCase();
+
+		// Log search term for debugging
+		System.out.println("Search Keyword: " + searchTerm);
+
+		// Perform comprehensive search
+		List<Food> searchResults = foodRepository.searchByNameOrCategoryOrDescription(searchTerm);
+
+		// Optional: Additional filtering or processing
+		return searchResults.stream()
+				.distinct()
+				.collect(Collectors.toList());
 	}
+
 
 	@Override
 	public Food updateAvailibilityStatus(Long id) throws FoodException {

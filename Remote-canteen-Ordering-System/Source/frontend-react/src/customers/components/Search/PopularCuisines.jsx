@@ -7,7 +7,7 @@ export const PopularCuisines = ({ image, title }) => {
         alt={title}
       />
       <span className="py-2 font-semibold text-xs text-gray-400">
-        {title.length>6?title.substring(0,5)+"...":title}</span>
+        {title.length>6?title.substring(0,6)+"...":title}</span>
     </div>
   );
 };

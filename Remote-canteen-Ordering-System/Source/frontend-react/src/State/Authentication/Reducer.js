@@ -19,6 +19,7 @@ import {
 
 const initialState = {
   user: null,
+  users: null,
   isLoading: false,
   error: null,
   jwt: null,
@@ -67,6 +68,7 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isLoading: false,
         user: action.payload,
+        users: action.payload, 
         favorites: action.payload.favorites,
       };
       

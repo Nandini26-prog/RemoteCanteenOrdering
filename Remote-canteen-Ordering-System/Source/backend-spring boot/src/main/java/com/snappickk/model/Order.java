@@ -57,5 +57,10 @@ public class Order {
 	private int totalItem;
 	
 	private int totalPrice;
+//
+//		private String paymentMethod;
+//		private String paymentStatus;
+//		//private String paymentId;
+		// existing fields
 
 }

@@ -35,7 +35,7 @@ const HomePage = () => {
       <section className="p-10 lg:py-10 lg:px-20">
         <div className="">
           <p className="text-2xl font-semibold text-gray-400 py-3 pb-10">
-            Top Meels
+            Top Meals
           </p>
           <MultipleItemsCarousel />
         </div>
