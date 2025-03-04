@@ -77,6 +77,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                 <TableCell>Order ID</TableCell>
                 <TableCell>Customer</TableCell>
                 <TableCell>Total Price</TableCell>
+                <TableCell>Order Date & Time</TableCell>
                 <TableCell>Food Item</TableCell>
                 <TableCell>Ingredients</TableCell>
                 <TableCell>Quantity</TableCell>
@@ -93,6 +94,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                         <TableCell rowSpan={order.items.length}>{order.id}</TableCell>
                         <TableCell rowSpan={order.items.length}>{order.customer.fullName}</TableCell>
                         <TableCell rowSpan={order.items.length}>₹{order.totalAmount}</TableCell>
+                        <TableCell rowSpan={order.items.length}>{new Date(order.date).toLocaleString()}</TableCell>
                       </>
                     )}
 
