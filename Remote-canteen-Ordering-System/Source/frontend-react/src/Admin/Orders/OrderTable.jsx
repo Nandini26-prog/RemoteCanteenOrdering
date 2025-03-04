@@ -114,14 +114,14 @@ const OrdersTable = ({ isDashboard, name }) => {
                     ))}
                   </TableCell>
                   <TableCell>
-                    {item.items.map((orderItem) => (
-                      <Box key={orderItem.food.id} display="flex" alignItems="center" gap={1}>
-                        <Button onClick={() => handleQuantityChange(orderItem.food.id, -1)}>-</Button>
-                        <Typography>{quantity[orderItem.food.id] || 1}</Typography>
-                        <Button onClick={() => handleQuantityChange(orderItem.food.id, 1)}>+</Button>
-                      </Box>
-                    ))}
-                  </TableCell>
+  {item.items.map((orderItem) => (
+    <Box key={orderItem.food.id} display="flex" alignItems="center" gap={1}>
+      <Button onClick={() => handleQuantityChange(orderItem.food.id, -1)}>-</Button>
+      <Typography>{quantity[orderItem.food.id] ?? orderItem.quantity}</Typography>
+      <Button onClick={() => handleQuantityChange(orderItem.food.id, 1)}>+</Button>
+    </Box>
+  ))}
+</TableCell>
                   {!isDashboard && (
                     <TableCell>
                       <Chip label={item.orderStatus} size="small" color={
