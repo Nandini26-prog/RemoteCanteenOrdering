@@ -99,7 +99,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                       ))}
                     </AvatarGroup>
                   </TableCell>
-                  <TableCell>{item.customer.name}</TableCell>
+                  <TableCell>{item.customer.fullName}</TableCell>
                   <TableCell>₹{item.totalAmount}</TableCell>
                   <TableCell>
                     {item.items.map((orderItem) => (
@@ -110,7 +110,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                     <TableCell>
                       {item.items.map((orderItem) => (
                         <Typography key={orderItem.food.id}>
-                          {orderItem.food.ingredients?.join(", ") || "N/A"}
+                          {orderItem.ingredients?.join(", ") || "N/A"}
                         </Typography>
                       ))}
                     </TableCell>
