@@ -40,7 +40,6 @@ const OrdersTable = ({ isDashboard, name }) => {
   const jwt = localStorage.getItem("jwt");
   const { restaurantsOrder } = useSelector((store) => store);
   const [anchorElArray, setAnchorElArray] = useState([]);
-  const [quantity, setQuantity] = useState({});
   const [selectedItem, setSelectedItem] = useState(null);
   const { id } = useParams();
 
@@ -61,13 +60,6 @@ const OrdersTable = ({ isDashboard, name }) => {
     dispatch(updateOrderStatus({ orderId, orderStatus, jwt }));
   };
 
-  const handleQuantityChange = (itemId, value) => {
-    setQuantity((prev) => ({
-      ...prev,
-      [itemId]: Math.max(1, (prev[itemId] || 1) + value),
-    }));
-  };
-
   const handlePreviewItem = (item) => {
     setSelectedItem(item);
   };
@@ -85,6 +77,7 @@ const OrdersTable = ({ isDashboard, name }) => {
                 <TableCell>Customer</TableCell>
                 <TableCell>Price</TableCell>
                 <TableCell>Name</TableCell>
+                {!isDashboard && <TableCell>Ingredients</TableCell>}
                 <TableCell>Quantity</TableCell>
                 {!isDashboard && <TableCell>Status</TableCell>}
                 {!isDashboard && <TableCell>Update</TableCell>}
@@ -113,15 +106,22 @@ const OrdersTable = ({ isDashboard, name }) => {
                       <p key={orderItem.food.id}>{orderItem.food.name}</p>
                     ))}
                   </TableCell>
+                  {!isDashboard && (
+                    <TableCell>
+                      {item.items.map((orderItem) => (
+                        <Typography key={orderItem.food.id}>
+                          {orderItem.food.ingredients?.join(", ") || "N/A"}
+                        </Typography>
+                      ))}
+                    </TableCell>
+                  )}
                   <TableCell>
-  {item.items.map((orderItem) => (
-    <Box key={orderItem.food.id} display="flex" alignItems="center" gap={1}>
-      <Button onClick={() => handleQuantityChange(orderItem.food.id, -1)}>-</Button>
-      <Typography>{quantity[orderItem.food.id] ?? orderItem.quantity}</Typography>
-      <Button onClick={() => handleQuantityChange(orderItem.food.id, 1)}>+</Button>
-    </Box>
-  ))}
-</TableCell>
+                    {item.items.map((orderItem) => (
+                      <Typography key={orderItem.food.id}>
+                        {orderItem.quantity}
+                      </Typography>
+                    ))}
+                  </TableCell>
                   {!isDashboard && (
                     <TableCell>
                       <Chip label={item.orderStatus} size="small" color={
@@ -163,6 +163,7 @@ const OrdersTable = ({ isDashboard, name }) => {
           <Avatar src={selectedItem.images[0]} sx={{ width: 100, height: 100, my: 2 }} />
           <Typography>Name: {selectedItem.name}</Typography>
           <Typography>Price: ₹{selectedItem.price}</Typography>
+          <Typography>Ingredients: {selectedItem.ingredients?.join(", ") || "N/A"}</Typography>
         </Card>
       )}
       <Backdrop open={restaurantsOrder.loading}>
