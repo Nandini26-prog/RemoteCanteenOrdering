@@ -17,6 +17,8 @@ import {
   TableHead,
   TableRow,
   Typography,
+  List,
+  ListItem,
 } from "@mui/material";
 
 import React, { useEffect, useState } from "react";
@@ -106,9 +108,13 @@ const OrdersTable = ({ isDashboard, name }) => {
                       <Typography>{orderItem.food.name}</Typography>
                     </TableCell>
 
-                    {/* Ingredients */}
+                    {/* Ingredients List */}
                     <TableCell>
-                      {orderItem.ingredients?.join(", ") || "N/A"}
+                      <List>
+                        {orderItem.ingredients?.map((ingredient, index) => (
+                          <ListItem key={index}>{ingredient}</ListItem>
+                        )) || <Typography>N/A</Typography>}
+                      </List>
                     </TableCell>
 
                     {/* Quantity */}
@@ -163,7 +169,12 @@ const OrdersTable = ({ isDashboard, name }) => {
           <Avatar src={selectedItem.images[0]} sx={{ width: 100, height: 100, my: 2 }} />
           <Typography>Name: {selectedItem.name}</Typography>
           <Typography>Price: ₹{selectedItem.price}</Typography>
-          <Typography>Ingredients: {selectedItem.ingredients?.join(", ") || "N/A"}</Typography>
+          <Typography>Ingredients:</Typography>
+          <List>
+            {selectedItem.ingredients?.map((ingredient, index) => (
+              <ListItem key={index}>{ingredient}</ListItem>
+            )) || <Typography>N/A</Typography>}
+          </List>
         </Card>
       )}
 
