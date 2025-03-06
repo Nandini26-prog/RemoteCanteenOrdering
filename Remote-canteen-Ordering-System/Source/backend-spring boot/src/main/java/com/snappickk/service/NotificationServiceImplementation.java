@@ -1,9 +1,11 @@
 package com.snappickk.service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.snappickk.model.Users;
+import com.snappickk.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +46,19 @@ public class NotificationServiceImplementation implements NotificationService {
 	public List<Notification> findUsersNotification(Long userId) {
 		// TODO Auto-generated method stub
 		return notificationRepository.findByCustomerId(userId);
-	}
 
+	}
+//@Override
+//public List<Notification> findUsersNotification(Long userId) {
+//	// Option 1: Get the user entity first, then find by entity
+//	Users user = UserRepository.findById(userId).orElse(null);
+//	if (user != null) {
+//		return notificationRepository.findByCustomer(user);
+//	}
+//	return new ArrayList<>();
+
+	// Option 2: If you updated the repository with @Query as shown above
+	// return notificationRepository.findByCustomerId(userId);
 }
+
+

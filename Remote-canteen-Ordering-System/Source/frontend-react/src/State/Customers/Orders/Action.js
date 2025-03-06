@@ -1,7 +1,12 @@
 import { api } from "../../../config/api";
 import { createOrderFailure, createOrderRequest, createOrderSuccess, getUsersOrdersFailure, getUsersOrdersRequest, getUsersOrdersSuccess } from "./ActionCreators";
-import { GET_USERS_NOTIFICATION_FAILURE, GET_USERS_NOTIFICATION_SUCCESS } from "./ActionTypes";
-
+//import { GET_USERS_NOTIFICATION_FAILURE, GET_USERS_NOTIFICATION_SUCCESS,GET_USERS_ORDERS_REQUEST } from "./ActionTypes";
+import {
+  GET_USERS_NOTIFICATION_SUCCESS,
+  GET_USERS_NOTIFICATION_FAILURE,
+  GET_USERS_ORDERS_REQUEST,
+  // Import other action types as needed
+} from "./ActionTypes";
 
 export const createOrder = (reqData) => {
   return async (dispatch) => {
@@ -42,18 +47,49 @@ export const getUsersOrders = (jwt) => {
   };
 };
 
-
-export const getUsersNotificationAction = () => {
+export const getUsersNotificationAction = (jwt) => {
   return async (dispatch) => {
-    dispatch(createOrderRequest());
+    dispatch({ type: GET_USERS_ORDERS_REQUEST });
     try {
-      const {data} = await api.get('/api/notifications');
-     
-      console.log("all notifications ",data)
-      dispatch({type:GET_USERS_NOTIFICATION_SUCCESS,payload:data});
+      const { data } = await api.get('/api/notifications', {
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
+      });
+      console.log("all notifications ", data);
+      dispatch({ type: GET_USERS_NOTIFICATION_SUCCESS, payload: data });
     } catch (error) {
-      console.log("error ",error)
-      dispatch({type:GET_USERS_NOTIFICATION_FAILURE,payload:error});
+      console.log("error ", error);
+      dispatch({ type: GET_USERS_NOTIFICATION_FAILURE, payload: error });
     }
   };
 };
+
+// export const getUsersNotificationAction = () => {
+//   return async (dispatch) => {
+//     dispatch(createOrderRequest());
+//     try {
+//       const {data} = await api.get('/api/notifications');
+     
+//       console.log("all notifications ",data)
+//       dispatch({type:GET_USERS_NOTIFICATION_SUCCESS,payload:data});
+//     } catch (error) {
+//       console.log("error ",error)
+//       dispatch({type:GET_USERS_NOTIFICATION_FAILURE,payload:error});
+//     }
+//   };
+// };
+
+// export const getUsersNotificationAction = () => {
+//   return async (dispatch) => {
+//     dispatch(createOrderRequest());
+//     try {
+//       const {data} = await api.get('/api/notifications');
+//       console.log("all notifications ", data);
+//       dispatch({type:GET_USERS_NOTIFICATION_SUCCESS, payload:data});
+//     } catch (error) {
+//       console.log("error ", error);
+//       dispatch({type:GET_USERS_NOTIFICATION_FAILURE, payload:error});
+//     }
+//   };
+// };

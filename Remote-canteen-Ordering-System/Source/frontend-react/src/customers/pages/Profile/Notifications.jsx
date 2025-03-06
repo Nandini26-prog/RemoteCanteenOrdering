@@ -5,11 +5,12 @@ import { Card } from "@mui/material";
 
 const Notifications = () => {
   const dispatch = useDispatch();
+  const jwt=localStorage.getItem("jwt")
 
   const { order } = useSelector((store) => store);
 
   useEffect(() => {
-    dispatch(getUsersNotificationAction());
+    dispatch(getUsersNotificationAction(jwt));
   }, []);
 
   return (

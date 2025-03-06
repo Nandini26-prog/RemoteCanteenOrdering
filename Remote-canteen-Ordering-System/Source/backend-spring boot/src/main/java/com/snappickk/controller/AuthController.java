@@ -43,8 +43,8 @@ import java.util.List;
 @RequestMapping("/auth")
 public class AuthController {
 
-	private UserRepository userRepository;
-	private PasswordEncoder passwordEncoder;
+	private  UserRepository userRepository;
+	private  PasswordEncoder passwordEncoder;
 	private JwtProvider jwtProvider;
 	private CustomeUserServiceImplementation customUserDetails;
 	private CartRepository cartRepository;
