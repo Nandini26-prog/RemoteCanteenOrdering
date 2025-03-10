@@ -7,5 +7,6 @@ import com.snappickk.model.PaymentResponse;
 public interface PaymentService {
 
 	public PaymentResponse generatePaymentLink(Order order) throws StripeException;
-
+	//added new
+	public void distributePaymentToRestaurants(Order mainOrder);
 }

@@ -42,7 +42,7 @@ public class Restaurant {
     
     @JsonIgnore
     @OneToMany(mappedBy="restaurant",cascade=CascadeType.ALL,orphanRemoval = true)
-    private List<Order> orders=new ArrayList<>();
+    private List<RestaurantOrder> restaurantOrders=new ArrayList<>();
     
     private int numRating;
 

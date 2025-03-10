@@ -22,7 +22,10 @@ public class OrderItem {
 
     @ManyToOne
     private Food food;
-    
+
+    @ManyToOne
+    private Restaurant restaurant;
+
     private int quantity;
     private Long totalPrice;
     

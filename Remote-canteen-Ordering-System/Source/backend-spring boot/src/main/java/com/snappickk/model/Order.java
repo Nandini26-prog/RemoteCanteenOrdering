@@ -1,6 +1,6 @@
 package com.snappickk.model;
 
-
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,12 +33,13 @@ public class Order {
 	@ManyToOne
 	private Users customer;
 
-	@JsonIgnore
-	@ManyToOne
-	private Restaurant restaurant;
+	// Remove direct restaurant association
+	// @JsonIgnore
+	// @ManyToOne
+	// private Restaurant restaurant;
 
 	private Long totalAmount;
-	
+
 	private String orderStatus;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -47,20 +48,18 @@ public class Order {
 	@ManyToOne
 	private Address deliveryAddress;
 
-//	@JsonIgnore
 	@OneToMany
-	private List<OrderItem> items;
+	private List<OrderItem> items = new ArrayList<>();
+
+	// Add reference to restaurant-specific orders
+	@JsonIgnore
+	@OneToMany(mappedBy = "parentOrder")
+	private List<RestaurantOrder> restaurantOrders = new ArrayList<>();
 
 	@OneToOne
 	private Payment payment;
-	
-	private int totalItem;
-	
-	private int totalPrice;
-//
-//		private String paymentMethod;
-//		private String paymentStatus;
-//		//private String paymentId;
-		// existing fields
 
+	private int totalItem;
+
+	private int totalPrice;
 }

@@ -2,6 +2,8 @@ package com.snappickk.controller;
 
 import java.util.List;
 
+import com.snappickk.model.RestaurantOrder;
+import com.snappickk.service.RestaurantOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,9 @@ public class AdminOrderController {
 	private OrderService orderService;
 
 	@Autowired
+	private RestaurantOrderService restaurantOrderService;
+
+	@Autowired
 	private UserService userService;
 
 
@@ -40,15 +45,16 @@ public class AdminOrderController {
 
 
     @GetMapping("/order/restaurant/{restaurantId}")
-    public ResponseEntity<List<Order>> getAllRestaurantOrders(
+    public ResponseEntity<List<RestaurantOrder>> getAllRestaurantOrders(
     		@PathVariable Long restaurantId,
     		@RequestParam(required = false) String order_status) throws OrderException, RestaurantException{
 
-    		List<Order> orders = orderService.
-    				getOrdersOfRestaurant(restaurantId,order_status);
+    		List<RestaurantOrder> orders = restaurantOrderService.
+					getRestaurantOrders(restaurantId,order_status);
 
 //    		System.out.println("ORDER STATUS----- "+orderStatus);
-    		return ResponseEntity.ok(orders);
+    		//return ResponseEntity.ok(orders);
+		return ResponseEntity.ok().body(orders);
 
 
 

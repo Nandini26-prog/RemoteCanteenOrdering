@@ -2,6 +2,7 @@ package com.snappickk.controller;
 
 import java.util.List;
 
+import com.snappickk.service.RestaurantOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import com.snappickk.Exception.OrderException;
 import com.snappickk.Exception.RestaurantException;
 import com.snappickk.Exception.UserException;
 import com.snappickk.model.Order;
+import com.snappickk.model.RestaurantOrder;
 import com.snappickk.model.PaymentResponse;
 import com.snappickk.model.Users;
 import com.snappickk.request.CreateOrderRequest;
@@ -30,7 +32,10 @@ public class OrderController {
 	@Autowired
 	private OrderService orderService;
 	@Autowired
+	private RestaurantOrderService restaurantOrderService;
+	@Autowired
 	private UserService userService;
+
 
     @PostMapping("/order")
 	public ResponseEntity<PaymentResponse>  createOrder(@RequestBody CreateOrderRequest order,
