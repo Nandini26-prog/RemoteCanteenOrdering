@@ -43,6 +43,9 @@ public class RestaurantOrder {
     private String orderStatus;
 
     @Temporal(TemporalType.TIMESTAMP)
+    private Date pickupTime;
+
+    @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
 
     private String restaurantPaymentStatus;

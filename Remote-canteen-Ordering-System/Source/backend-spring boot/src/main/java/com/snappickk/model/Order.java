@@ -26,40 +26,40 @@ import lombok.NoArgsConstructor;
 @Data
 @Table(name = "orders")
 public class Order {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	@ManyToOne
-	private Users customer;
+    @ManyToOne
+    private Users customer;
 
-	// Remove direct restaurant association
-	// @JsonIgnore
-	// @ManyToOne
-	// private Restaurant restaurant;
+    // Remove direct restaurant association
+    // @JsonIgnore
+    // @ManyToOne
+    // private Restaurant restaurant;
 
-	private Long totalAmount;
+    private Long totalAmount;
 
-	private String orderStatus;
+    private String orderStatus;
 
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date createdAt;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createdAt;
 
-	@ManyToOne
-	private Address deliveryAddress;
+    @ManyToOne
+    private Address deliveryAddress;
 
-	@OneToMany
-	private List<OrderItem> items = new ArrayList<>();
+    @OneToMany
+    private List<OrderItem> items = new ArrayList<>();
 
-	// Add reference to restaurant-specific orders
-	@JsonIgnore
-	@OneToMany(mappedBy = "parentOrder")
-	private List<RestaurantOrder> restaurantOrders = new ArrayList<>();
+    // Add reference to restaurant-specific orders
+    @JsonIgnore
+    @OneToMany(mappedBy = "parentOrder")
+    private List<RestaurantOrder> restaurantOrders = new ArrayList<>();
 
-	@OneToOne
-	private Payment payment;
+    @OneToOne
+    private Payment payment;
 
-	private int totalItem;
+    private int totalItem;
 
-	private int totalPrice;
+    private int totalPrice;
 }

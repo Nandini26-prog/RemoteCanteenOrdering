@@ -22,9 +22,12 @@ const Routers = () => {
         path="/admin/restaurant/*"
         element={<AdminRouters/>}
       />
+      {/* SuperAdmin route */}
+      <Route path="/super-admin/*" element={<SuperAdmin />} />
       <Route path="/*" element={<CustomerRoutes />} />
     </Routes>
     </>
+    
     
   );
 };

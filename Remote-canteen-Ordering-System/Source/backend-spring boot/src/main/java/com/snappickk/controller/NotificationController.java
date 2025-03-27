@@ -2,13 +2,11 @@ package com.snappickk.controller;
 
 import java.util.List;
 
+import com.snappickk.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.snappickk.Exception.UserException;
 import com.snappickk.model.Notification;
@@ -24,6 +22,8 @@ public class NotificationController {
 	private NotificationService notificationSerivce;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private NotificationRepository notificationRepository;
 
 	@GetMapping("/notifications")
 	public ResponseEntity<List<Notification>> findUsersNotification(
@@ -32,6 +32,30 @@ public class NotificationController {
 
 		List<Notification> notifications=notificationSerivce.findUsersNotification(user.getId());
 		return new ResponseEntity<List<Notification>>(notifications,HttpStatus.ACCEPTED);
+	}
+	@PutMapping("/notifications/{notificationId}/read")
+	public ResponseEntity<Notification> markNotificationAsRead(
+			@PathVariable Long notificationId,
+			@RequestHeader("Authorization") String jwt
+	) throws Exception {
+		Users user = userService.findUserProfileByJwt(jwt);
+
+		// Find the specific notification
+		Notification notification = notificationRepository.findById(notificationId)
+				.orElseThrow(() -> new Exception("Notification not found"));
+
+		// Ensure the notification belongs to the user
+		if (!notification.getCustomer().getId().equals(user.getId())) {
+			throw new Exception("You are not authorized to modify this notification");
+		}
+
+		// Toggle read status
+		notification.setReadStatus(!notification.isReadStatus());
+
+		// Save the updated notification
+		Notification updatedNotification = notificationRepository.save(notification);
+
+		return ResponseEntity.ok(updatedNotification);
 	}
 
 }

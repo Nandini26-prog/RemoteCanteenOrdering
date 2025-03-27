@@ -18,7 +18,6 @@ const SuperAdmin = () => {
   return (
     <div className="lg:flex justify-between">
       <div className="">
-       
         <SuperAdminSidebar />
       </div>
 

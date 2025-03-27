@@ -1,5 +1,6 @@
 package com.snappickk.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,18 @@ public class RestaurantOrderServiceImplementation implements RestaurantOrderServ
         }
         else throw new OrderException("Please Select A Valid Order Status");
     }
+    @Override
+    public RestaurantOrder updatePickupTime(Long restaurantOrderId, Date pickupTime) throws OrderException {
+        RestaurantOrder restaurantOrder = findById(restaurantOrderId);
+
+        if (restaurantOrder == null) {
+            throw new OrderException("Restaurant order not found with ID " + restaurantOrderId);
+        }
+
+        restaurantOrder.setPickupTime(pickupTime);
+        return restaurantOrderRepository.save(restaurantOrder);
+    }
+
 
     @Override
     public List<RestaurantOrder> getRestaurantOrdersByParentOrder(Long parentOrderId) throws OrderException {

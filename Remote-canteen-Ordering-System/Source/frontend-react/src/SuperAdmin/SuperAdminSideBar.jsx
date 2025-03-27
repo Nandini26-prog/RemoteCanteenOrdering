@@ -32,6 +32,8 @@ export default function SuperAdminSidebar({ handleClose, open }) {
 
   const handleNavigate = (item) => {
     navigate(`/super-admin${item.path}`);
+   //navigate(item.path);
+
     if (item.title === "Logout") {
       navigate("/");
       dispatch(logout());

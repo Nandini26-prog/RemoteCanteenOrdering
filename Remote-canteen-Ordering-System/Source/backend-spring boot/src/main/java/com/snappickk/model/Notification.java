@@ -30,6 +30,8 @@ public class Notification {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date sentAt;
+
+   // private RestaurantOrder restaurantOrder;
     
     private boolean readStatus;
     
