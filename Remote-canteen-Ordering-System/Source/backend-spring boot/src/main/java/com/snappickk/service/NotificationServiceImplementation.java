@@ -4,14 +4,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.snappickk.model.Users;
+import com.snappickk.model.*;
 import com.snappickk.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.snappickk.model.Notification;
-import com.snappickk.model.Order;
-import com.snappickk.model.Restaurant;
 import com.snappickk.repository.NotificationRepository;
 
 @Service
@@ -29,6 +26,46 @@ public class NotificationServiceImplementation implements NotificationService {
 		
 		return notificationRepository.save(notification);
 	}
+	@Override
+	public Notification sendRestaurantOrderStatusNotification(RestaurantOrder restaurantOrder) {
+		Notification notification = new Notification();
+
+		// Set the customer
+		notification.setCustomer(restaurantOrder.getParentOrder().getCustomer());
+
+		// Set the restaurant
+		notification.setRestaurant(restaurantOrder.getRestaurant());
+
+		// Construct a detailed message
+		notification.setMessage(String.format(
+				"Your order from %s is now %s. Order details: Total items %d",
+				restaurantOrder.getRestaurant().getName(),
+				restaurantOrder.getOrderStatus(),
+				restaurantOrder.getItems().size()
+
+		));
+
+		// Set sent timestamp
+		notification.setSentAt(new Date());
+
+		// Initially set as unread
+		notification.setReadStatus(false);
+
+		return notificationRepository.save(notification);
+	}
+
+//	public Notification sendRestaurantOrderStatusNotification(RestaurantOrder restaurantOrder) {
+//		Notification notification = new Notification();
+//		notification.setMessage("Your order from " + restaurantOrder.getRestaurant().getName() +
+//				" is " + restaurantOrder.getOrderStatus() +
+//				" (Order ID: " + restaurantOrder.getParentOrder().getId() +
+//				"-" + restaurantOrder.getId() + ")");
+//		notification.setCustomer(restaurantOrder.getParentOrder().getCustomer());
+//		notification.setSentAt(new Date());
+//		//notification.setRestaurantOrder(restaurantOrder); // Add this field to Notification entity
+//
+//		return notificationRepository.save(notification);
+//	}
 
 	@Override
 	public void sendRestaurantNotification(Restaurant restaurant, String message) {

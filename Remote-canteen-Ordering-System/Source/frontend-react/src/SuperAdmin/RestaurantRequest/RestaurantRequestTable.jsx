@@ -24,11 +24,11 @@ import {
   const RestaurantRequestTable = ({ isDashboard, name }) => {
     const dispatch = useDispatch();
     const { menu } = useSelector((store) => store);
-    // const { id } = useParams();
+     const { id } = useParams();
   
-    useEffect(() => {
-      
-    }, []);
+     useEffect(() => {
+      dispatch(getMenuItemsByRestaurantId(id)); 
+   }, [dispatch, id]);
   
     const handleDeleteProduct = (productId) => {
       console.log("delete product ", productId);

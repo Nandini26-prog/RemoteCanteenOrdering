@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Data
 public class OrderItem {
     @Id

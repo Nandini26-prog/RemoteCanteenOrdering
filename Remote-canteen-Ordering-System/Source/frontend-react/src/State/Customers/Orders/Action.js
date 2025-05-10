@@ -8,6 +8,7 @@ import {
   // Import other action types as needed
 } from "./ActionTypes";
 
+
 export const createOrder = (reqData) => {
   return async (dispatch) => {
     dispatch(createOrderRequest());
@@ -33,63 +34,101 @@ export const createOrder = (reqData) => {
 export const getUsersOrders = (jwt) => {
   return async (dispatch) => {
     dispatch(getUsersOrdersRequest());
+    
     try {
-      const {data} = await api.get(`/api/order/user`,{
+      const response = await api.get('/api/order/user', {
         headers: {
-            Authorization: `Bearer ${jwt}`,
-          },
+          Authorization: `Bearer ${jwt}`,
+        },
+        timeout: 10000
       });
-      console.log("users order ",data)
-      dispatch(getUsersOrdersSuccess(data));
+
+      console.log("Raw API Response:", response.data);
+
+      const processedData = (response.data || []).map(order => {
+        // Debug logging for each order
+        console.log("Processing Order:", order);
+
+        return {
+          ...order,
+          date: order.createdAt ? new Date(order.createdAt) : new Date(),
+          restaurantOrders: (order.restaurantOrders || []).map(ro => {
+            // Additional logging for restaurant orders
+            console.log("Restaurant Order:", ro);
+            console.log("Items in Restaurant Order:", ro.items);
+
+            return {
+              ...ro,
+              restaurant: ro.restaurant || { 
+                name: ro.restaurantName || "Unknown Restaurant" 
+              },
+              restaurantName: ro.restaurant?.name || ro.restaurantName || "Unknown Restaurant",
+              // Try different paths to fetch items
+              items: ro.items || 
+                     ro.orderItems || 
+                     ro.restaurantOrderItems || 
+                     [],
+              displayStatus: ro.orderStatus || ro.displayStatus || 'PENDING'
+            };
+          })
+        };
+      });
+
+      console.log("Processed Orders with Debugging:", processedData);
+      dispatch(getUsersOrdersSuccess(processedData));
     } catch (error) {
-      dispatch(getUsersOrdersFailure(error));
+      console.error("Order fetch error:", error);
+      dispatch(getUsersOrdersFailure(error.message));
     }
   };
 };
+
+
+// export const getUsersNotificationAction = (jwt) => {
+//   return async (dispatch) => {
+//     dispatch({ type: GET_USERS_ORDERS_REQUEST });
+//     try {
+//       const { data } = await api.get('/api/notifications', {
+//         headers: {
+//           Authorization: `Bearer ${jwt}`
+//         }
+//       });
+//       console.log("all notifications ", data);
+//       dispatch({ type: GET_USERS_NOTIFICATION_SUCCESS, payload: data });
+//     } catch (error) {
+//       console.log("error ", error);
+//       dispatch({ type: GET_USERS_NOTIFICATION_FAILURE, payload: error });
+//     }
+//   };
+// };
 
 export const getUsersNotificationAction = (jwt) => {
   return async (dispatch) => {
-    dispatch({ type: GET_USERS_ORDERS_REQUEST });
-    try {
-      const { data } = await api.get('/api/notifications', {
-        headers: {
-          Authorization: `Bearer ${jwt}`
-        }
-      });
-      console.log("all notifications ", data);
-      dispatch({ type: GET_USERS_NOTIFICATION_SUCCESS, payload: data });
-    } catch (error) {
-      console.log("error ", error);
-      dispatch({ type: GET_USERS_NOTIFICATION_FAILURE, payload: error });
-    }
+      dispatch({ type: GET_USERS_ORDERS_REQUEST });
+      try {
+          const { data } = await api.get('/api/notifications', {
+              headers: {
+                  Authorization: `Bearer ${jwt}`
+              }
+          });
+          
+          // Optional: Sort notifications by most recent first
+          const sortedNotifications = data.sort((a, b) => 
+              new Date(b.sentAt) - new Date(a.sentAt)
+          );
+          
+          console.log("Fetched notifications", sortedNotifications);
+          
+          dispatch({ 
+              type: GET_USERS_NOTIFICATION_SUCCESS, 
+              payload: sortedNotifications 
+          });
+      } catch (error) {
+          console.error("Notification fetch error:", error);
+          dispatch({ 
+              type: GET_USERS_NOTIFICATION_FAILURE, 
+              payload: error 
+          });
+      }
   };
 };
-
-// export const getUsersNotificationAction = () => {
-//   return async (dispatch) => {
-//     dispatch(createOrderRequest());
-//     try {
-//       const {data} = await api.get('/api/notifications');
-     
-//       console.log("all notifications ",data)
-//       dispatch({type:GET_USERS_NOTIFICATION_SUCCESS,payload:data});
-//     } catch (error) {
-//       console.log("error ",error)
-//       dispatch({type:GET_USERS_NOTIFICATION_FAILURE,payload:error});
-//     }
-//   };
-// };
-
-// export const getUsersNotificationAction = () => {
-//   return async (dispatch) => {
-//     dispatch(createOrderRequest());
-//     try {
-//       const {data} = await api.get('/api/notifications');
-//       console.log("all notifications ", data);
-//       dispatch({type:GET_USERS_NOTIFICATION_SUCCESS, payload:data});
-//     } catch (error) {
-//       console.log("error ", error);
-//       dispatch({type:GET_USERS_NOTIFICATION_FAILURE, payload:error});
-//     }
-//   };
-// };

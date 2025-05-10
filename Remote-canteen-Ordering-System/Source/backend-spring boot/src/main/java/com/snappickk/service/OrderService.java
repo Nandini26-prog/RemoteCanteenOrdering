@@ -31,6 +31,7 @@ package com.snappickk.service;
 
 import java.util.List;
 
+import com.snappickk.dto.OrderDTO;
 import com.stripe.exception.StripeException;
 import com.snappickk.Exception.CartException;
 import com.snappickk.Exception.OrderException;
@@ -46,7 +47,8 @@ public interface OrderService {
 	public PaymentResponse createOrder(CreateOrderRequest order, Users user) throws UserException, RestaurantException, CartException, StripeException;
 	public void cancelOrder(Long orderId) throws OrderException;
 	public Order findOrderById(Long orderId) throws OrderException;
-	public List<Order> getUserOrders(Long userId) throws OrderException;
+	//public List<Order> getUserOrders(Long userId) throws OrderException;
+	public List<OrderDTO> getUserOrders(Long userId) throws OrderException;
 	public Order updateOrder(Long orderId, String orderStatus) throws OrderException;
 	// No need for getOrdersOfRestaurant here as that will be handled by RestaurantOrderService
 }

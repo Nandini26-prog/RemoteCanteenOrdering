@@ -52,4 +52,6 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
 	// Or use a JPQL query to find by customer.id
 	@Query("SELECT n FROM Notification n WHERE n.customer.id = :userId")
 	List<Notification> findByCustomerId(@Param("userId") Long userId);
+	List<Notification> findByCustomerIdAndReadStatusFalse(Long customerId);
+
 }
